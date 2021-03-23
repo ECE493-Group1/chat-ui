@@ -34,7 +34,7 @@
 
 <script>
   export default {
-    name: 'HelloWorld',
+    name: 'ChatRoom',
 
     data: () => ({
       "messages":[
