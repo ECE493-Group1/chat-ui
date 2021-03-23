@@ -18,12 +18,13 @@
       <v-col cols="10">
         <v-text-field
           label="Main input"
-          :rules="rules"
+          v-model="newMessage"
           hide-details="auto"
         ></v-text-field>
       </v-col>
       <v-col cols="2">
-        <v-btn>
+        <v-btn
+        @click="send">
           Send
         </v-btn>
       </v-col>
@@ -37,11 +38,18 @@
     name: 'ChatRoom',
 
     data: () => ({
-      "messages":[
-        {"from": "Dinula", "content": "Hi"},
-        {"from": "Ryan", "content": "Poop"},
-        {"from": "Bob", "content": "asdjf"},
-      ],
+      newMessage: ""
     }),
+    computed: {
+      messages() {
+        return this.$store.state.messages
+      }
+    },
+    methods: {
+      send: function() {
+        this.$store.commit("ADD_MESSAGE", {"content": this.newMessage, "from": this.$store.state.username})
+        this.newMessage = ""
+      }
+    }
   }
 </script>
