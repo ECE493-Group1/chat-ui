@@ -1,31 +1,26 @@
 <template>
   <v-app>
-    <v-navigation-drawer app>
-      <v-list
-        dense
-        nav
-        temporary
-      >
+    <v-navigation-drawer app permanent expand-on-hover>
+      <v-list dense nav> 
         <v-list-item
           v-for="(route, i) in routes"
           :key="i"
           link
           :to="route.path"
         >
+          <v-list-item-icon>
+            <v-icon>{{ route.icon }}</v-icon>
+          </v-list-item-icon>
+
           <v-list-item-content>
-            <v-list-item-title >
-              {{route.name}}
+            <v-list-item-title>
+              {{ route.name }}
             </v-list-item-title>
-            
           </v-list-item-content>
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
-    <v-app-bar
-      app
-      color="primary"
-      dark
-    >
+    <v-app-bar app color="primary" dark>
       <v-toolbar-title>CATChat</v-toolbar-title>
     </v-app-bar>
     <v-main>
@@ -34,20 +29,22 @@
         <router-view></router-view>
       </v-container>
     </v-main>
-
   </v-app>
 </template>
 
 <script>
-import {routes} from './router/index.js';
 
 export default {
-  name: 'App',
+  name: "App",
 
   components: {},
-
+// Put Link Here for Nav Bar
   data: () => ({
-    "routes": routes,
+    routes: [
+      { path: "/", name: "Home" , "icon": "mdi-home"},
+      { path: "/about", name: "About","icon": "mdi-information"},
+      { path: "/convos", name: "Conversations", "icon": "mdi-chat"},
+    ],
   }),
 };
 </script>

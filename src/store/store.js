@@ -6,17 +6,27 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    messages: [{"from":"Bob", "content": "POOOOP"}],
-    username: "Kenbob"
+    username: "Kenbob",
+    isConnected: false
   },
 
   getters: {
   },
 
   mutations: {
-    ADD_MESSAGE(state, message) {
-      state.messages.push(message)
+    SOCKET_connect(state) {
+      state.isConnected = true;
+      
+    },
+
+    SOCKET_DISCONNECT(state) {
+      state.isConnected = false;
+    },
+
+    CLEAR_MESSAGES(state) {
+      state.messages = []
     }
+
   },
 
   actions: {

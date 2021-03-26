@@ -19,10 +19,16 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
   },
   {
-    path: '/chat',
+    path: '/chat/:id',
     name: 'Chat',
-    component: () => import('../views/ChatRoom.vue')
+    component: () => import('../views/Conversation.vue')
+  },
+  {
+    path: '/convos',
+    name: 'Conversations',
+    component: () => import('../views/ConversationFeed.vue')
   }
+
 ]
 
 const router = new VueRouter({
