@@ -16,19 +16,26 @@
     </v-row>
       
     <v-row>
-      <v-col cols="10">
+      <v-spacer cols="2"></v-spacer>
+      <v-col cols="8">
         <v-text-field
           label="Main input"
           v-model="newMessage"
           hide-details="auto"
-        ></v-text-field>
+        >
+          <v-btn
+          depressed
+          color="primary"
+          @click="send"
+          slot="append">
+            <v-icon>
+              mdi-send
+            </v-icon>
+          </v-btn>
+
+        </v-text-field>
       </v-col>
-      <v-col cols="2">
-        <v-btn
-        @click="send">
-          Send
-        </v-btn>
-      </v-col>
+      <v-spacer cols="2"></v-spacer>
     </v-row>
     
   </v-container>
@@ -36,7 +43,7 @@
 
 <script>
   export default {
-    name: 'Conversation',
+    name: 'Thread',
 
     data: () => ({
       messages: [],

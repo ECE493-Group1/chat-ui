@@ -15,9 +15,10 @@
 
 <script>
 import axios from "axios";
+import { CHAT_BACKEND_ROOMS, CHAT_BACKEND_URL } from "../constants"
 
 export default {
-  name: "ConversationFeed",
+  name: "ThreadFeed",
 
   data: () => ({
     rooms: [],
@@ -28,7 +29,7 @@ export default {
     }
   },
   mounted() {
-    axios.get("http://localhost:8000/rooms").then((response) => {
+    axios.get(CHAT_BACKEND_URL + CHAT_BACKEND_ROOMS).then((response) => {
       var names = response.data.rooms;
       var ids = response.data.ids;
       this.rooms = names.map(function (e, i) {

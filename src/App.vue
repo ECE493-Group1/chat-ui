@@ -41,9 +41,10 @@ export default {
 // Put Link Here for Nav Bar
   data: () => ({
     routes: [
-      { path: "/", name: "Home" , "icon": "mdi-home"},
-      { path: "/about", name: "About","icon": "mdi-information"},
-      { path: "/convos", name: "Conversations", "icon": "mdi-chat"},
+      { path: "/", name: "Home" , icon: "mdi-home"},
+      { path: "/about", name: "About", icon: "mdi-information"},
+      { path: "/convos", name: "Threads", icon: "mdi-view-list"},
+      { path: "/new", name: "New Thread", icon: "mdi-comment-plus"}
     ],
   }),
 };

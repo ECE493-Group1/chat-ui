@@ -21,12 +21,17 @@ const routes = [
   {
     path: '/chat/:id',
     name: 'Chat',
-    component: () => import('../views/Conversation.vue')
+    component: () => import('../views/Thread.vue')
   },
   {
     path: '/convos',
-    name: 'Conversations',
-    component: () => import('../views/ConversationFeed.vue')
+    name: 'Threads',
+    component: () => import('../views/ThreadFeed.vue')
+  },
+  {
+    path: '/new',
+    name: 'NewThread',
+    component: () => import('../views/NewThread.vue')
   }
 
 ]
