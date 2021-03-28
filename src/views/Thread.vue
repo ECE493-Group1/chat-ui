@@ -9,7 +9,7 @@
               :key="i"
             >
               <v-list-item-title>{{message.content}}</v-list-item-title>
-              <v-list-item-subtitle>{{message.from}}</v-list-item-subtitle>
+              <v-list-item-subtitle>{{message.username}}</v-list-item-subtitle>
           </v-list-item>
         </v-list>
       </v-col>
@@ -52,9 +52,14 @@
       newMessage: "",
     }),
     sockets: {
-      RECEIVE: function(data) {
-        console.log("message received", data)
-        this.messages.push({"content": data, "from": "kenbob"})
+      RECEIVE: function(message) {
+        console.log("message received", message)
+        this.messages.push(message)
+      },
+      RECEIVE_PREV: function(data) {
+        console.log("previous messages received", data)
+        var newMessages = data.messages 
+        this.messages.push(...newMessages)
       }
     },
     methods: {
@@ -68,19 +73,19 @@
         this.newMessage = ""
       },
       
-      join: function() {
+      enter: function() {
         //TODO: GET room info
         this.roomId = this.$route.params.id
         this.messages = []
-        this.$socket.emit("JOIN", this.roomId)
+        this.$socket.emit("ENTER", this.roomId)
       }
     },
     mounted() {
-      this.join()
+      this.enter()
     },
     beforeRouteUpdate(to, from, next) {
       console.log(to, from, next)
-      this.join()
+      this.enter()
     },
     beforeRouteLeave(to, from, next) {
       console.log(to, from, next)
