@@ -53,6 +53,7 @@ export default {
         this.$store.state.email = this.email
         // TODO Make a request to actual login
         this.$store.state.username = this.email.split('@')[0]
+        this.$store.state.isLoggedIn = true
         this.$router.push("/")
     },
   }

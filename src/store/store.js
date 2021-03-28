@@ -8,6 +8,7 @@ export default new Vuex.Store({
   state: {
     email: "",
     username: "",
+    isLoggedIn: false,
     isConnected: false
   },
 

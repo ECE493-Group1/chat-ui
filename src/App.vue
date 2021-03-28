@@ -21,7 +21,15 @@
       </v-list>
     </v-navigation-drawer>
     <v-app-bar app color="primary" dark>
-      <v-toolbar-title>CATChat</v-toolbar-title>
+      <v-toolbar-title>
+        <v-icon>mdi-cat</v-icon>
+      </v-toolbar-title>
+      <v-toolbar-title>
+        <div class="text-h5 font-weight-light">
+          CATChat
+        </div>
+      </v-toolbar-title>
+
     </v-app-bar>
     <v-main>
       <v-container fluid>
@@ -44,17 +52,16 @@ export default {
         return [
           { path: "/", name: "Home", icon: "mdi-home" },
           { path: "/login", name: "Login", icon: "mdi-login" },
-          { path: "/register", name: "Register", icon: "mdi-account-plus"},
+          { path: "/register", name: "Register", icon: "mdi-account-plus" },
           { path: "/about", name: "About", icon: "mdi-information" },
         ];
       } else {
         return [
           { path: "/", name: "Home", icon: "mdi-home" },
-          { path: "/about", name: "About", icon: "mdi-information" },
           { path: "/convos", name: "Threads", icon: "mdi-view-list" },
           { path: "/new", name: "New Thread", icon: "mdi-comment-plus" },
+          { path: "/about", name: "About", icon: "mdi-information" },
         ];
-
       }
     },
   },
