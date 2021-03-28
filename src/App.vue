@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <v-navigation-drawer app permanent expand-on-hover>
-      <v-list dense nav> 
+      <v-list dense nav>
         <v-list-item
           v-for="(route, i) in routes"
           :key="i"
@@ -33,19 +33,31 @@
 </template>
 
 <script>
-
 export default {
   name: "App",
 
   components: {},
-// Put Link Here for Nav Bar
-  data: () => ({
-    routes: [
-      { path: "/", name: "Home" , icon: "mdi-home"},
-      { path: "/about", name: "About", icon: "mdi-information"},
-      { path: "/convos", name: "Threads", icon: "mdi-view-list"},
-      { path: "/new", name: "New Thread", icon: "mdi-comment-plus"}
-    ],
-  }),
+  computed: {
+    routes() {
+      // Change Nav Bar results depending on login status
+      if (this.$store.state.email == "") {
+        return [
+          { path: "/", name: "Home", icon: "mdi-home" },
+          { path: "/login", name: "Login", icon: "mdi-login" },
+          { path: "/register", name: "Register", icon: "mdi-account-plus"},
+          { path: "/about", name: "About", icon: "mdi-information" },
+        ];
+      } else {
+        return [
+          { path: "/", name: "Home", icon: "mdi-home" },
+          { path: "/about", name: "About", icon: "mdi-information" },
+          { path: "/convos", name: "Threads", icon: "mdi-view-list" },
+          { path: "/new", name: "New Thread", icon: "mdi-comment-plus" },
+        ];
+
+      }
+    },
+  },
+  // Put Link Here for Nav Bar
 };
 </script>

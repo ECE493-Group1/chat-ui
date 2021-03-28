@@ -39,7 +39,7 @@ export default {
   data: () => ({
     title: "",
     isPrivate: false,
-    titleRules: [(v) => v.length < 10 || "Title Too Long"],
+    titleRules: [(v) => v.length < 15 || "Title Too Long"],
     members: [],
   }),
   computed: {

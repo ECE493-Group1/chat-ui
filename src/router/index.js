@@ -32,8 +32,16 @@ const routes = [
     path: '/new',
     name: 'NewThread',
     component: () => import('../views/NewThread.vue')
+  },
+  {
+    path: '/login',
+    name: 'Login',
+    component: () => import('../views/Login.vue')
+  },
+  {
+    path: '/register',
+    component: () => import("../views/Register.vue")
   }
-
 ]
 
 const router = new VueRouter({
