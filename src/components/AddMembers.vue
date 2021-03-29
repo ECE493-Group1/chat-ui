@@ -3,7 +3,7 @@
     <v-row>
       <v-col cols="12">
         <v-list>
-          <v-subheader>Add Memebers</v-subheader>
+          <v-subheader>Add Members</v-subheader>
           <v-list-item v-for="(member, i) in members" :key="i">
             <v-list-item-title>{{ member }}</v-list-item-title>
             
