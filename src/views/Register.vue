@@ -49,9 +49,11 @@
 
 <script>
 // @ is an alias to /src
+import axios from "axios";
+import { USER_SERVICE_REGISTER, USER_SERVICE_URL } from "../constants";
 
 export default {
-  name: "Login",
+  name: "Register",
   components: {},
   data: () => ({
     email: "",
@@ -74,9 +76,18 @@ export default {
   },
   methods: {
     submit() {
-        // TODO Make a request to actually register a user 
-        console.log("REGISTER")
-        this.$router.push("/")
+
+        axios.post(USER_SERVICE_URL + USER_SERVICE_REGISTER, {
+          email: this.email,
+          username: this.username,
+          password: this.password,
+        }).then(() => {
+          this.$router.push("/");
+        }).catch((error) => {
+          // TODO: Display error message to the user
+          console.log(error.response.data.message);
+        })
+        
     },
     passwordMatch(v) {
       return v == this.passwordConfirm
