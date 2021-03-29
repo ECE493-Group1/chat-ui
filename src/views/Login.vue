@@ -33,6 +33,8 @@
 
 <script>
 // @ is an alias to /src
+import axios from "axios";
+import { USER_SERVICE_URL, USER_SERVICE_LOGIN } from "../constants";
 
 export default {
   name: "Login",
@@ -50,11 +52,20 @@ export default {
   },
   methods: {
     submit() {
+      axios.post(USER_SERVICE_URL + USER_SERVICE_LOGIN, {
+        email: this.email,
+        password: this.password,
+      }).then((response) => {
+        this.$router.push("/")
         this.$store.state.email = this.email
-        // TODO Make a request to actual login
         this.$store.state.username = this.email.split('@')[0]
         this.$store.state.isLoggedIn = true
-        this.$router.push("/")
+        this.$store.state.authToken = response.data.token
+      }).catch((error) => {
+        // TODO: Display error message to the user
+        console.log(error.response.data.message)
+      })
+
     },
   }
 };

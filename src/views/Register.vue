@@ -50,7 +50,7 @@
 <script>
 // @ is an alias to /src
 import axios from "axios";
-import { USER_SERVICE_REGISTER, USER_SERVICE_URL } from "../constants";
+import { USER_SERVICE_URL, USER_SERVICE_REGISTER } from "../constants";
 
 export default {
   name: "Register",
@@ -76,17 +76,16 @@ export default {
   },
   methods: {
     submit() {
-
-        axios.post(USER_SERVICE_URL + USER_SERVICE_REGISTER, {
-          email: this.email,
-          username: this.username,
-          password: this.password,
-        }).then(() => {
-          this.$router.push("/");
-        }).catch((error) => {
-          // TODO: Display error message to the user
-          console.log(error.response.data.message);
-        })
+      axios.post(USER_SERVICE_URL + USER_SERVICE_REGISTER, {
+        email: this.email,
+        username: this.username,
+        password: this.password,
+      }).then(() => {
+        this.$router.push("/");
+      }).catch((error) => {
+        // TODO: Display error message to the user
+        console.log(error.response.data.message);
+      })
         
     },
     passwordMatch(v) {

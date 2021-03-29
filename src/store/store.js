@@ -9,7 +9,8 @@ export default new Vuex.Store({
     email: "",
     username: "",
     isLoggedIn: false,
-    isConnected: false
+    isConnected: false,
+    authToken: ""
   },
 
   getters: {
