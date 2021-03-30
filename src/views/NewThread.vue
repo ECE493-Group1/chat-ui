@@ -10,7 +10,7 @@
           required
         ></v-text-field>
         <v-checkbox v-model="isPrivate" label="Private Thread"></v-checkbox>
-        <search-users></search-users>
+        <search-users v-bind:members="this.members"></search-users>
         <add-user v-bind:members="this.members"></add-user>
         <v-btn
           block

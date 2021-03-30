@@ -29,6 +29,11 @@
           <v-list>
             <v-list-item v-for="(user, i) in users" :key="i">
               <v-list-item-title>{{ user }}</v-list-item-title>
+              <v-list-item-action>
+                <v-btn @click="add(i)">
+                  <v-icon>mdi-plus</v-icon>
+                </v-btn>
+              </v-list-item-action>
             </v-list-item>
           </v-list>
         </v-card-text>
@@ -53,6 +58,9 @@ export default {
     users: [],
     dialog: false,
   }),
+  props: {
+    members: Array
+  },
   watch: {
     dialog (val) {
       if (!val) {
@@ -74,6 +82,9 @@ export default {
         console.log(error);
       })
     },
+    add: function(index) {
+      this.members.push(this.users[index])
+    }
 
   }
 };
