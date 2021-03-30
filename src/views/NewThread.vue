@@ -10,6 +10,7 @@
           required
         ></v-text-field>
         <v-checkbox v-model="isPrivate" label="Private Thread"></v-checkbox>
+        <search-users v-bind:members="this.members"></search-users>
         <add-user v-bind:members="this.members"></add-user>
         <v-btn
           block
@@ -30,11 +31,13 @@
 import AddMember from "../components/AddMembers";
 import { CHAT_BACKEND_URL, CHAT_BACKEND_ROOMS} from "../constants";
 import axios from "axios"
+import SearchUsers from '../components/SearchUsers';
 
 export default {
   name: "NewThread",
   components: {
     "add-user": AddMember,
+    "search-users" : SearchUsers
   },
   data: () => ({
     title: "",

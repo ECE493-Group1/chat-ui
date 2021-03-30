@@ -4,18 +4,6 @@
       <v-spacer cols="3"></v-spacer>
       <v-col cols="6">
         <v-text-field
-          v-model="email"
-          :rules="emailRules"
-          label="Email"
-          required
-        ></v-text-field>
-        <v-text-field
-          v-model="username"
-          :rules="usernameRules"
-          label="Username"
-          required
-        ></v-text-field>
-        <v-text-field
             v-model="password"
             :append-icon="show1? 'mdi-eye' : 'mdi-eye-off'"
             :rules="passwordRules"
@@ -39,8 +27,7 @@
           color="primary"
           v-bind:disabled="isDisabled"
           @click="submit"
-          >Register</v-btn
-        >
+          >Submit</v-btn>
       </v-col>
       <v-spacer cols="3"></v-spacer>
     </v-row>
@@ -50,16 +37,12 @@
 <script>
 // @ is an alias to /src
 import axios from "axios";
-import { USER_SERVICE_URL, USER_SERVICE_REGISTER } from "../constants";
+import { USER_SERVICE_URL, USER_SERVICE_CHANGE_PASSWORD } from "../constants";
 
 export default {
-  name: "Register",
+  name: "ChangePassword",
   components: {},
   data: () => ({
-    email: "",
-    emailRules: [(v) => v.match(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/) != null],
-    username: "",
-    usernameRules:  [(v) => v.length > 4, (v) => v.length < 12],
     password: "",
     passwordRules: [(v) => v.length > 8],
     passwordConfirm: "",
@@ -68,7 +51,7 @@ export default {
   }),
   computed: {
     isDisabled: function () {
-      return this.email == "" || this.password == "" || (this.emailRules.filter(rule => !rule(this.email)).length != 0)
+      return this.password == "" || this.passwordConfirm == "" || !this.passwordMatch(this.password)
     },
     passwordConfirmRules: function() {
       return [(v)=> v == this.password]
@@ -76,17 +59,16 @@ export default {
   },
   methods: {
     submit() {
-      axios.post(USER_SERVICE_URL + USER_SERVICE_REGISTER, {
-        email: this.email,
-        username: this.username,
-        password: this.password,
+      axios.post(USER_SERVICE_URL + USER_SERVICE_CHANGE_PASSWORD, {
+        reset_token: this.$route.params.token,
+        new_password: this.password,
       }).then(() => {
         this.$router.push("/");
+        // TODO: Display success message to the user
       }).catch((error) => {
         // TODO: Display error message to the user
         console.log(error.response.data.message);
       })
-        
     },
     passwordMatch(v) {
       return v == this.passwordConfirm

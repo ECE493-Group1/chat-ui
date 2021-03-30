@@ -3,7 +3,7 @@
     <v-row>
       <v-col cols="12">
         <v-list>
-          <v-subheader>Add Memebers</v-subheader>
+          <v-subheader>Add Members</v-subheader>
           <v-list-item v-for="(member, i) in members" :key="i">
             <v-list-item-title>{{ member }}</v-list-item-title>
             
@@ -14,20 +14,6 @@
             </v-list-item-action>
           </v-list-item>
         </v-list>
-      </v-col>
-    </v-row>
-
-    <v-row>
-      <v-col cols="12">
-        <v-text-field
-          label="Add User"
-          v-model="newUserName"
-          hide-details="auto"
-        >
-          <v-btn depressed color="primary" @click="add" slot="append">
-            <v-icon> mdi-account-plus </v-icon>
-          </v-btn>
-        </v-text-field>
       </v-col>
     </v-row>
   </v-container>

@@ -22,7 +22,7 @@
       <v-row>
         <v-spacer cols="4"></v-spacer>
         <v-col cols="4">
-          <v-btn center block color="primary">Logout
+          <v-btn @click="logout" block color="primary">Logout
             <v-icon right dark>mdi-logout</v-icon>
           </v-btn>
         </v-col>
@@ -57,6 +57,15 @@ export default {
     username: function() {
       return this.$store.state.username
     }
+  },
+  methods: {
+    logout: function() {
+      this.$store.state.username = ""
+      this.$store.state.email = ""
+      this.$store.state.isLoggedIn = false
+      this.$router.push("/")
+    }
+
   }
 }
 </script>

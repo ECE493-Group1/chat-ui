@@ -25,6 +25,13 @@
           @click="submit"
           >Login</v-btn
         >
+        <v-btn
+          class="mt-4"
+          block
+          color="primary"
+          @click="$router.push('/forgot-password')"
+          >Forgot Password?</v-btn
+        >
       </v-col>
       <v-spacer cols="3"></v-spacer>
     </v-row>
@@ -33,6 +40,8 @@
 
 <script>
 // @ is an alias to /src
+import axios from "axios";
+import { USER_SERVICE_URL, USER_SERVICE_LOGIN } from "../constants";
 
 export default {
   name: "Login",
@@ -50,11 +59,20 @@ export default {
   },
   methods: {
     submit() {
-        this.$store.state.email = this.email
-        // TODO Make a request to actual login
-        this.$store.state.username = this.email.split('@')[0]
-        this.$store.state.isLoggedIn = true
+      axios.post(USER_SERVICE_URL + USER_SERVICE_LOGIN, {
+        email: this.email,
+        password: this.password,
+      }).then((response) => {
         this.$router.push("/")
+        this.$store.state.email = this.email
+        this.$store.state.username = response.data.username
+        this.$store.state.authToken = response.data.token
+        this.$store.state.isLoggedIn = true
+      }).catch((error) => {
+        // TODO: Display error message to the user
+        console.log(error.response.data.message)
+      })
+
     },
   }
 };
