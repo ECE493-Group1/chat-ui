@@ -40,7 +40,18 @@ const routes = [
   },
   {
     path: '/register',
+    name: 'Register',
     component: () => import("../views/Register.vue")
+  },
+  {
+    path: '/forgot-password',
+    name: 'ForgotPassword',
+    component: () => import("../views/ForgotPassword.vue")
+  },
+  {
+    path: '/change-password/:token',
+    name: 'ChangePassword',
+    component: () => import("../views/ChangePassword.vue")
   }
 ]
 
