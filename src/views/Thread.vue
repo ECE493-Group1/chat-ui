@@ -3,6 +3,39 @@
     <v-row>
       <v-col cols="12" class="messages">
         <v-list>
+          <v-list-group prepend-icon="mdi-cog" dense >
+            <template v-slot:activator>
+              <v-list-item-title>Settings</v-list-item-title>
+            </template>
+
+            <v-list-group no-action sub-group>
+              <template v-slot:activator>
+                <v-list-item-title> Members </v-list-item-title>
+              </template>
+
+              <v-list-item v-for="(user, i) in members" :key="i">
+                <v-list-item-content>
+                  <v-list-item-title>{{ user }}</v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+            </v-list-group>
+
+            <v-list-item>
+              <v-list-item-title>
+                {{
+                  joined
+                    ? "You have joined this thread"
+                    : "Please join this thread to message"
+                }}
+              </v-list-item-title>
+              <v-list-item-action>
+                <v-btn x-large v-bind:color="joined ? 'error' : 'primary'">
+                  {{ joined ? "Leave" : "Join" }}
+                </v-btn>
+              </v-list-item-action>
+            </v-list-item>
+          </v-list-group>
+
           <v-subheader>Welcome to {{ room }}</v-subheader>
 
           <div
@@ -38,7 +71,8 @@
           v-model="newMessage"
           background-color="white"
         >
-          <v-btn depressed color="primary" @click="send" slot="append">
+          <v-btn depressed :disabled="joined" color="primary" @click="send" slot="append">
+            Send
             <v-icon> mdi-send </v-icon>
           </v-btn>
         </v-text-field>
@@ -80,9 +114,11 @@ export default {
 
   data: () => ({
     messages: [],
+    members: ["bob", "bill", "chuck"],
     room: "MY ROOM",
     roomId: "",
     newMessage: "",
+    joined: false,
   }),
   computed: {
     username() {
@@ -117,6 +153,7 @@ export default {
       this.messages = [];
       this.$socket.emit("ENTER", this.roomId);
     },
+    threadInfo: function () {},
   },
   mounted() {
     this.enter();
