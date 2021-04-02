@@ -1,13 +1,32 @@
 <template>
   <v-container fluid>
     <v-row>
-      <v-col cols="12" class="message-container">
+      <v-col cols="12" class="messages">
         <v-list>
           <v-subheader>Welcome to {{ room }}</v-subheader>
-          <v-list-item v-for="(message, i) in messages" :key="i">
-            <v-list-item-title>{{ message.content }}</v-list-item-title>
-            <v-list-item-subtitle>{{ message.username }}</v-list-item-subtitle>
-          </v-list-item>
+
+          <div
+            :class="{ 'self-message': message.username == username }"
+            v-for="(message, i) in messages"
+            :key="i"
+          >
+            <div>
+              <div class="message">
+                <div>
+                  <div>
+                    <h3 class="font-weight-regular">
+                      {{ message.content }}
+                    </h3>
+                  </div>
+                  <div>
+                    <h5 class="font-weight-thin">
+                      {{ message.username }}
+                    </h5>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </v-list>
       </v-col>
     </v-row>
@@ -28,12 +47,24 @@
   </v-container>
 </template>
 <style>
-.message-container {
+.message {
+  background-color: lightblue;
+  border-radius: 15px;
+  margin: 0.5rem;
+  display: inline-flex;
+  padding: 1rem;
+}
+.self-message {
+  text-align: right;
+}
+.self-message .message {
+  background-color: lightgreen;
+}
+.messages {
   box-sizing: border-box;
   top: 0;
   height: calc(100vh - 5rem);
   overflow-y: auto;
-  background-color: #f2f2f2;
 }
 .typing-container {
   position: fixed;
@@ -41,7 +72,6 @@
   max-height: 5rem;
   margin: auto;
   max-width: 90%;
-  background-color: #f2f2f2;
 }
 </style>
 <script>
@@ -54,6 +84,11 @@ export default {
     roomId: "",
     newMessage: "",
   }),
+  computed: {
+    username() {
+      return this.$store.state.username;
+    },
+  },
   sockets: {
     RECEIVE: function (message) {
       console.log("message received", message);
