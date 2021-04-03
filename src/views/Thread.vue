@@ -1,43 +1,52 @@
 <template>
   <v-container fluid>
     <v-row>
-      <v-col cols="12" class="messages">
-        <v-list>
-          <v-list-group prepend-icon="mdi-cog" dense >
-            <template v-slot:activator>
-              <v-list-item-title>Settings</v-list-item-title>
-            </template>
-
-            <v-list-group no-action sub-group>
-              <template v-slot:activator>
-                <v-list-item-title> Members </v-list-item-title>
-              </template>
-
+      <v-dialog
+        v-model="dialog"
+        scrollable
+        max-width="40%"
+        @click:outside="updateOptions"
+      >
+        <v-card class="option-container">
+          <v-card-title> Thread Options </v-card-title>
+          <v-list subheader>
+            <v-subheader>Members</v-subheader>
+            <v-list-item-group multiple>
               <v-list-item v-for="(user, i) in members" :key="i">
                 <v-list-item-content>
                   <v-list-item-title>{{ user }}</v-list-item-title>
                 </v-list-item-content>
               </v-list-item>
-            </v-list-group>
-
+            </v-list-item-group>
+            <search-users v-bind:members="this.members"></search-users>
+            <v-subheader> </v-subheader>
+            <v-subheader>Join or Leave</v-subheader>
             <v-list-item>
               <v-list-item-title>
                 {{
                   joined
                     ? "You have joined this thread"
-                    : "Please join this thread to message"
+                    : "Please join this thread to send messages"
                 }}
               </v-list-item-title>
               <v-list-item-action>
-                <v-btn x-large v-bind:color="joined ? 'error' : 'primary'">
+                <v-btn
+                  x-large
+                  v-bind:color="joined ? 'error' : 'primary'"
+                  @click="joined = !joined"
+                >
                   {{ joined ? "Leave" : "Join" }}
                 </v-btn>
               </v-list-item-action>
             </v-list-item>
-          </v-list-group>
+          </v-list>
+        </v-card>
+      </v-dialog>
 
-          <v-subheader>Welcome to {{ room }}</v-subheader>
-
+      <div class="text-h2 text-center">{{ title }}</div>
+      <v-col cols="12" class="messages">
+        <v-list>
+          <v-btn @click="openOptions"> Options </v-btn>
           <div
             :class="{ 'self-message': message.username == username }"
             v-for="(message, i) in messages"
@@ -71,7 +80,13 @@
           v-model="newMessage"
           background-color="white"
         >
-          <v-btn depressed :disabled="joined" color="primary" @click="send" slot="append">
+          <v-btn
+            depressed
+            :disabled="!joined"
+            color="primary"
+            @click="send"
+            slot="append"
+          >
             Send
             <v-icon> mdi-send </v-icon>
           </v-btn>
@@ -107,18 +122,29 @@
   margin: auto;
   max-width: 90%;
 }
+.option-container {
+  padding: 1rem;
+}
 </style>
 <script>
+import axios from "axios";
+import SearchUsersVue from "../components/SearchUsers.vue";
+import { CHAT_BACKEND_ROOM, CHAT_BACKEND_URL } from "../constants";
+
 export default {
   name: "Thread",
-
+  components: {
+    "search-users": SearchUsersVue,
+  },
   data: () => ({
     messages: [],
-    members: ["bob", "bill", "chuck"],
-    room: "MY ROOM",
+    members: [],
+    title: "",
     roomId: "",
+    isPrivate: "",
     newMessage: "",
     joined: false,
+    dialog: false,
   }),
   computed: {
     username() {
@@ -150,8 +176,30 @@ export default {
     enter: function () {
       //TODO: GET room info
       this.roomId = this.$route.params.id;
+      this.getRoomInfo(this.roomId);
       this.messages = [];
       this.$socket.emit("ENTER", this.roomId);
+    },
+    getRoomInfo: function (roomId) {
+      axios
+        .get(CHAT_BACKEND_URL + CHAT_BACKEND_ROOM, {
+          params: {
+            id: roomId
+          }
+        })
+        .then((response) => {
+          var data = response.data;
+          this.title = data.title;
+          this.isPrivate = data.isPrivate;
+          this.members = data.members;
+          this.joined = data.members.includes(this.username);
+        });
+    },
+    openOptions: function () {
+      this.dialog = true;
+    },
+    updateOptions: function () {
+      console.log("Called");
     },
     threadInfo: function () {},
   },
