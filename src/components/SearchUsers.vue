@@ -1,31 +1,18 @@
 <template>
   <v-row justify="center">
-    <v-dialog
-      v-model="dialog"
-      scrollable
-      max-width="300px"
-    >
+    <v-dialog v-model="dialog" scrollable max-width="300px">
       <template v-slot:activator="{ on, attrs }">
-        <v-btn
-          color="primary"
-          dark
-          v-bind="attrs"
-          v-on="on">Search For Users
+        <v-btn :disabled="!enabled" color="primary" dark v-bind="attrs" v-on="on"
+          >Search For Users
         </v-btn>
       </template>
       <v-card>
-        <v-text-field
-          class="px-4"
-          v-model="searchQuery"
-          label="username">
+        <v-text-field class="px-4" v-model="searchQuery" label="username">
         </v-text-field>
         <v-divider></v-divider>
-        <v-btn
-            color="blue darken-1"
-            text
-            @click="search">Search</v-btn>
+        <v-btn color="blue darken-1" text @click="search">Search</v-btn>
         <v-divider></v-divider>
-        <v-card-text style="height: 300px;">
+        <v-card-text style="height: 300px">
           <v-list>
             <v-list-item v-for="(user, i) in users" :key="i">
               <v-list-item-title>{{ user }}</v-list-item-title>
@@ -38,10 +25,7 @@
           </v-list>
         </v-card-text>
         <v-divider></v-divider>
-        <v-btn
-            color="blue darken-1"
-            text
-            @click="dialog = false">Close</v-btn>
+        <v-btn color="blue darken-1" text @click="dialog = false">Close</v-btn>
       </v-card>
     </v-dialog>
   </v-row>
@@ -54,38 +38,48 @@ import { USER_SERVICE_URL, USER_SERVICE_USER_SEARCH } from "../constants";
 export default {
   name: "SearchUsers",
   data: () => ({
-    searchQuery: '',
+    searchQuery: "",
     users: [],
     dialog: false,
   }),
   props: {
-    members: Array
+    members: Array,
+    enabled: {
+      type: Boolean,
+      default: true
+    },
   },
   watch: {
-    dialog (val) {
+    dialog(val) {
       if (!val) {
-        this.searchQuery = ''
-        this.users = []
+        this.searchQuery = "";
+        this.users = [];
       }
-    }
+    },
   },
   methods: {
     search() {
-      axios.post(USER_SERVICE_URL + USER_SERVICE_USER_SEARCH, {
-        search_query: this.searchQuery
-      }, {
-        headers: {Authorization: `Bearer ${this.$store.state.authToken}`}
-      }).then((response) => {
-        this.users = response.data.results
-      }).catch((error) => {
-        // TODO: Display error message to the user
-        console.log(error);
-      })
+      axios
+        .post(
+          USER_SERVICE_URL + USER_SERVICE_USER_SEARCH,
+          {
+            search_query: this.searchQuery,
+          },
+          {
+            headers: { Authorization: `Bearer ${this.$store.state.authToken}` },
+          }
+        )
+        .then((response) => {
+          this.users = response.data.results;
+        })
+        .catch((error) => {
+          // TODO: Display error message to the user
+          console.log(error);
+        });
     },
-    add: function(index) {
-      this.members.push(this.users[index])
-    }
-
-  }
+    add: function (index) {
+      this.members.push(this.users[index]);
+    },
+  },
 };
 </script>

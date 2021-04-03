@@ -11,6 +11,7 @@
           <v-card-title> Thread Options </v-card-title>
           <v-list subheader>
             <v-subheader>Members</v-subheader>
+
             <v-list-item-group multiple>
               <v-list-item v-for="(user, i) in members" :key="i">
                 <v-list-item-content>
@@ -18,7 +19,11 @@
                 </v-list-item-content>
               </v-list-item>
             </v-list-item-group>
-            <search-users v-bind:members="this.members"></search-users>
+
+            <search-users
+              v-bind:enabled="this.joined"
+              v-bind:members="this.members"
+            ></search-users>
             <v-subheader> </v-subheader>
             <v-subheader>Join or Leave</v-subheader>
             <v-list-item>
@@ -33,7 +38,7 @@
                 <v-btn
                   x-large
                   v-bind:color="joined ? 'error' : 'primary'"
-                  @click="joined = !joined"
+                  @click="toggleJoin"
                 >
                   {{ joined ? "Leave" : "Join" }}
                 </v-btn>
@@ -43,10 +48,19 @@
         </v-card>
       </v-dialog>
 
-      <div class="text-h2 text-center">{{ title }}</div>
       <v-col cols="12" class="messages">
         <v-list>
-          <v-btn @click="openOptions"> Options </v-btn>
+          <v-list-item>
+            <v-btn fab @click="openOptions" dark>
+              <v-icon> mdi-cog </v-icon>
+            </v-btn>
+          </v-list-item>
+          <v-list-item class="center" :style="{ 'align-items': 'center' }">
+            <v-list-item-content>
+              <p class="text-h2 text-center">{{ title }}</p>
+            </v-list-item-content>
+          </v-list-item>
+          <v-divider></v-divider>
           <div
             :class="{ 'self-message': message.username == username }"
             v-for="(message, i) in messages"
@@ -129,7 +143,11 @@
 <script>
 import axios from "axios";
 import SearchUsersVue from "../components/SearchUsers.vue";
-import { CHAT_BACKEND_ROOM, CHAT_BACKEND_URL } from "../constants";
+import {
+  CHAT_BACKEND_ROOM,
+  CHAT_BACKEND_LEAVE,
+  CHAT_BACKEND_URL,
+} from "../constants";
 
 export default {
   name: "Thread",
@@ -184,8 +202,8 @@ export default {
       axios
         .get(CHAT_BACKEND_URL + CHAT_BACKEND_ROOM, {
           params: {
-            id: roomId
-          }
+            id: roomId,
+          },
         })
         .then((response) => {
           var data = response.data;
@@ -196,12 +214,31 @@ export default {
         });
     },
     openOptions: function () {
+      this.getRoomInfo(this.roomId);
       this.dialog = true;
     },
     updateOptions: function () {
-      console.log("Called");
+      //Adds the new members
+      axios.post(CHAT_BACKEND_URL + CHAT_BACKEND_ROOM, {
+        id: this.roomId,
+        members: this.members,
+      });
     },
-    threadInfo: function () {},
+    toggleJoin: async function () {
+      if (this.joined) {
+        //if a user is already joined, it means they want to leave
+        await axios.post(CHAT_BACKEND_URL + CHAT_BACKEND_LEAVE, {
+          id: this.roomId,
+          member: this.$store.state.username,
+        });
+      } else {
+        await axios.post(CHAT_BACKEND_URL + CHAT_BACKEND_ROOM, {
+          id: this.roomId,
+          members: [this.$store.state.username],
+        });
+      }
+      this.getRoomInfo(this.roomId);
+    },
   },
   mounted() {
     this.enter();
