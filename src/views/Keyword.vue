@@ -13,7 +13,7 @@
         <v-col cols="6">
           <div class="text-h4 text-center">
             <!--TODO actually add mentions-->
-            Mentions : {{ Math.floor(Math.random() * 20) }}
+            Mentions : {{ 12 }}
           </div>
         </v-col>
         <v-spacer cols="2"></v-spacer>
@@ -35,7 +35,7 @@
         <v-list>
           <v-divider></v-divider>
           <v-subheader class="text-h5"> Threads with this Keyword</v-subheader>
-          <thread-list v-bind:threads="threads"></thread-list>
+          <thread-list v-bind:threads="threads" v-on:enter-room="enterRoom"></thread-list>
         </v-list>
         </v-col>
         <v-spacer cols="2"></v-spacer>
@@ -75,6 +75,9 @@ export default {
     },
   },
   methods: {
+    enterRoom: function (roomId) {
+      this.$router.push("/chat/" + roomId);
+    },
     subscribe: function () {
       if (!this.isSubbed) {
         axios.post(KW_SERVICE_URL + KW_SERVICE_USER, {
