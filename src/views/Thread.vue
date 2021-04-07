@@ -59,6 +59,12 @@
             <v-list-item-content>
               <p class="text-h2 text-center">{{ title }}</p>
             </v-list-item-content>
+             
+          </v-list-item>
+          <v-list-item>
+            <v-list-item-content v-if="keywords.length > 0">
+              <p class="text-h5 text-center">Keywords: {{ keywords.slice(0, maxKeywords).join(", ")}}</p>
+            </v-list-item-content>
           </v-list-item>
           <v-divider></v-divider>
           <div
@@ -147,7 +153,11 @@ import {
   CHAT_BACKEND_ROOM,
   CHAT_BACKEND_LEAVE,
   CHAT_BACKEND_URL,
+  KW_SERVICE_URL,
+  KW_SERVICE_ROOM_KW,
 } from "../constants";
+
+const MAX_KEYWORDS = 10
 
 export default {
   name: "Thread",
@@ -157,12 +167,15 @@ export default {
   data: () => ({
     messages: [],
     members: [],
-    title: "",
+    title: "hi",
     roomId: "",
     isPrivate: "",
     newMessage: "",
     joined: false,
     dialog: false,
+    keywords: [],
+    maxKeywords: MAX_KEYWORDS,
+    keywordJob: null,
   }),
   computed: {
     username() {
@@ -239,9 +252,18 @@ export default {
       }
       this.getRoomInfo(this.roomId);
     },
+    getKeywords: function () {
+      axios.get(KW_SERVICE_URL + KW_SERVICE_ROOM_KW, {params:{
+        chatroom_id: this.roomId
+      }}).then((response) => {
+        this.keywords = response.data.keywords
+        this.keywordJob = setTimeout(this.getKeywords, 5000)
+      })
+    }
   },
   mounted() {
     this.enter();
+    this.getKeywords()
   },
   beforeRouteUpdate(to, from, next) {
     console.log(to, from, next);
@@ -252,5 +274,10 @@ export default {
     this.$socket.emit("LEAVE", this.$store.state.room);
     next();
   },
+  beforeDestroy() {
+    if (this.keywordJob != null) {
+      clearTimeout(this.keywordJob)
+    }
+  }
 };
 </script>

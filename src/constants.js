@@ -11,3 +11,7 @@ export const USER_SERVICE_FORGOT_PASSWORD = "/request-password-reset"
 export const USER_SERVICE_CHANGE_PASSWORD = "/update-password"
 export const USER_SERVICE_USER_SEARCH = "/user-search"
 export const USER_SERVICE_VERIFY_RESET_TOKEN = "/verify-reset-token"
+
+export const KW_SERVICE_URL = "http://localhost:5000"
+//export const KW_SERVICE_ALL_KW = "/keywords"
+export const KW_SERVICE_ROOM_KW = "/keywords/room"
