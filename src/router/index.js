@@ -57,6 +57,11 @@ const routes = [
     path: '/keywords',
     name: 'Keywords',
     component: () => import('../views/KeywordFeed.vue')
+  },
+  {
+    path: '/keyword/:keyword',
+    name: 'Keyword',
+    component: () => import('../views/Keyword.vue')
   }
 ]
 
