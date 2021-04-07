@@ -60,6 +60,7 @@ export default {
           { path: "/", name: "Home", icon: "mdi-home" },
           { path: "/convos", name: "Threads", icon: "mdi-view-list" },
           { path: "/new", name: "New Thread", icon: "mdi-comment-plus" },
+          { path: "/keywords", name: "Keywords", icon: "mdi-key"},
           { path: "/about", name: "About", icon: "mdi-information" },
         ];
       }

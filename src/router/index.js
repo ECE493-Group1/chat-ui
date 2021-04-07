@@ -52,6 +52,11 @@ const routes = [
     path: '/change-password/:token',
     name: 'ChangePassword',
     component: () => import("../views/ChangePassword.vue")
+  },
+  {
+    path: '/keywords',
+    name: 'Keywords',
+    component: () => import('../views/KeywordFeed.vue')
   }
 ]
 
