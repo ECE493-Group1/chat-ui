@@ -7,7 +7,7 @@
           <v-list-item v-for="(keyword, i) in subbedKeywords" :key="i">
             <v-list-item-content>
               <v-list-item-title class="text-h4">
-                {{ keyword }}
+                {{ addHashtag(keyword) }}
               </v-list-item-title>
             </v-list-item-content>
             <v-list-item-action>
@@ -25,7 +25,7 @@
           >
             <v-list-item-content>
               <v-list-item-title class="text-h4">
-                {{ keyword }}
+                {{ addHashtag(keyword) }}
               </v-list-item-title>
             </v-list-item-content>
             <v-list-item-action>
@@ -43,7 +43,7 @@
           >
             <v-list-item-content>
               <v-list-item-title class="text-h4">
-                {{ keyword }}
+                {{ addHashtag(keyword) }}
               </v-list-item-title>
             </v-list-item-content>
             <v-list-item-action>
@@ -70,15 +70,14 @@ import {
 
 export default {
   name: "KeywordFeed",
-
   data: () => ({
     allKeywords: [],
     recommendedKeywords: [],
     subbedKeywords: [],
   }),
   methods: {
-    pickroom: function (roomId) {
-      this.$router.push("/chat/" + roomId);
+    checkKeyword: function (keyword) {
+      this.$router.push("/keyword/" + keyword);
     },
     addHashtag: function (x) {
       return "#" + x;
@@ -86,21 +85,21 @@ export default {
   },
   mounted() {
     axios.get(KW_SERVICE_URL + KW_SERVICE_ALL_KW).then((response) => {
-      this.allKeywords = response.data.keywords.map(this.addHashtag);
+      this.allKeywords = response.data.keywords;
     });
     axios
       .get(KW_SERVICE_URL + KW_SERVICE_RECOMMEND, {
         params: { authtoken: this.$store.state.authToken },
       })
       .then((response) => {
-        this.recommendedKeywords = response.data.keywords.map(this.addHashtag);
+        this.recommendedKeywords = response.data.keywords;
       });
     axios
       .get(KW_SERVICE_URL + KW_SERVICE_USER, {
         params: { authtoken: this.$store.state.authToken },
       })
       .then((response) => {
-        this.subbedKeywords = response.data.keywords.map(this.addHashtag);
+        this.subbedKeywords = response.data.keywords;
       });
   },
 };
