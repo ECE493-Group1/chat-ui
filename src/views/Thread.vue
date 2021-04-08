@@ -64,9 +64,9 @@
           <v-list-item>
             <v-list-item-content v-if="keywords.length > 0">
               <div class="d-flex justify-center">
-                <div class="pa-4 texttext--secondary ma-1 secondary rounded-pill" v-for="(kw, i) in keywords" :key="i">
-                    {{kw}}
-                </div>
+                <v-btn class="pa-4 text--secondary ma-1 secondary rounded-pill" v-for="(kw, i) in keywords" :key="i" @click="viewKeyword(kw)">
+                    #{{kw}}
+                </v-btn>
               </div>
             </v-list-item-content>
           </v-list-item>
@@ -263,6 +263,9 @@ export default {
         this.keywords = response.data.keywords
         this.keywordJob = setTimeout(this.getKeywords, 5000)
       })
+    },
+    viewKeyword: function(keyword) {
+      this.$router.push("/keyword/" + keyword);
     }
   },
   mounted() {

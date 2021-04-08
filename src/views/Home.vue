@@ -13,7 +13,7 @@
                 Username: {{ this.username }}
               </div>
             </v-card-text>
-            <v-card-actions>
+            <v-card-actions class="justify-center">
               <v-btn @click="logout" color="primary"
                 >Logout
                 <v-icon right dark>mdi-logout</v-icon>

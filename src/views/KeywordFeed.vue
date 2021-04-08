@@ -9,11 +9,11 @@
             v-for="(keyword, i) in subbedKeywords"
             :key="i"
             class="rounded-lg secondary ma-2"
-            @click="checkKeyword(keyword)"
+            @click="viewKeyword(keyword)"
           >
             <v-list-item-content>
               <v-list-item-title class="text-h5">
-                {{ addHashtag(keyword) }}
+                #{{ keyword }}
               </v-list-item-title>
             </v-list-item-content>
             <v-list-item-action>
@@ -29,11 +29,11 @@
             v-for="(keyword, i) in recommendedKeywords"
             :key="subbedKeywords.length + i"
             class="rounded-lg secondary ma-2"
-            @click="checkKeyword(keyword)"
+            @click="viewKeyword(keyword)"
           >
             <v-list-item-content>
               <v-list-item-title class="text-h5">
-                {{ addHashtag(keyword) }}
+                #{{ keyword }}
               </v-list-item-title>
             </v-list-item-content>
             <v-list-item-action>
@@ -49,11 +49,11 @@
             v-for="(keyword, i) in allKeywords"
             :key="subbedKeywords.length + recommendedKeywords.length + i"
             class="rounded-lg secondary ma-2"
-            @click="checkKeyword(keyword)"
+            @click="viewKeyword(keyword)"
           >
             <v-list-item-content>
               <v-list-item-title class="text-h5">
-                {{ addHashtag(keyword) }}
+                #{{ keyword }}
               </v-list-item-title>
             </v-list-item-content>
             <v-list-item-action>
@@ -87,11 +87,8 @@ export default {
     subbedKeywords: [],
   }),
   methods: {
-    checkKeyword: function (keyword) {
+    viewKeyword: function (keyword) {
       this.$router.push("/keyword/" + keyword);
-    },
-    addHashtag: function (x) {
-      return "#" + x;
     },
   },
   mounted() {
