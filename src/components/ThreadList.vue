@@ -8,7 +8,7 @@
             <v-icon v-if="room.isPrivate"> mdi-lock </v-icon>
           </v-list-item-title>
           <v-list-item-subtitle class="text-h6 font-italic">
-            {{ room.lastMessage }} - 
+            {{ room.lastMessage }} 
           </v-list-item-subtitle>
           <v-list-item-subtitle
             >Members: {{ room.members.join(", ") }}</v-list-item-subtitle

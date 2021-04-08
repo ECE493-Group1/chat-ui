@@ -57,7 +57,7 @@
               </v-list-item-title>
             </v-list-item-content>
             <v-list-item-action>
-               <v-btn plain>
+              <v-btn plain>
                 <v-icon x-large> mdi-chevron-right </v-icon>
               </v-btn>
             </v-list-item-action>

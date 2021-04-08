@@ -1,7 +1,7 @@
 <template>
   <v-app>
-    <v-navigation-drawer app permanent expand-on-hover>
-      <v-list dense nav>
+    <v-navigation-drawer class="secondary" app permanent expand-on-hover>
+      <v-list dense nav >
         <v-list-item>
           <v-list-item-icon>
               <v-icon>mdi-menu</v-icon>
