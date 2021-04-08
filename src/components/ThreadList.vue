@@ -1,27 +1,26 @@
 
 <template>
     <div>
-      <v-list-item v-for="(room, i) in threads" :key="i">
+      <v-list-item v-for="(room, i) in threads" :key="i" class="secondary rounded-lg ma-3" @click="$emit('enter-room', room.roomId)">
         <v-list-item-content>
           <v-list-item-title class="text-h4"
             >{{ room.title }}
             <v-icon v-if="room.isPrivate"> mdi-lock </v-icon>
           </v-list-item-title>
           <v-list-item-subtitle class="text-h6 font-italic">
-            {{ room.lastMessage }}
+            {{ room.lastMessage }} - 
           </v-list-item-subtitle>
           <v-list-item-subtitle
             >Members: {{ room.members.join(", ") }}</v-list-item-subtitle
           >
+          <v-list-item-subtitle>
+            Last Message: {{shortTime(room.lastMessageTime)}}
+          </v-list-item-subtitle>
         </v-list-item-content>
-        <v-list-item-action>
-          <v-list-item-action-text>{{
-            shortTime(room.lastMessageTime)
-          }}</v-list-item-action-text>
-          <v-btn plain @click="$emit('enter-room', room.roomId)">
-            <v-icon x-large> mdi-arrow-right-thick </v-icon>
-          </v-btn>
-        </v-list-item-action>
+        
+        <v-list-item-icon class="align-self-center">
+            <v-icon large> mdi-chevron-right </v-icon>
+        </v-list-item-icon>
       </v-list-item>
     </div>
 </template>
@@ -53,6 +52,8 @@ export default {
         return Math.ceil(difference / 3600).toString() + " minutes ago";
       }
       if (difference < 86400) {
+        return "1 day ago"
+      } else {
         return Math.ceil(difference / 86400).toString() + " days ago";
       }
     },

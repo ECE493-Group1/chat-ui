@@ -2,6 +2,22 @@
   <v-app>
     <v-navigation-drawer app permanent expand-on-hover>
       <v-list dense nav>
+        <v-list-item>
+          <v-list-item-icon>
+              <v-icon>mdi-menu</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title class="title">
+              Menu
+            </v-list-item-title>
+            <v-list-item-subtitle v-if="this.$store.state.isLoggedIn" class="mt-3">
+              {{this.$store.state.email}}
+            </v-list-item-subtitle>
+          </v-list-item-content>
+        </v-list-item>
+        
+        <v-divider></v-divider>
+
         <v-list-item
           v-for="(route, i) in routes"
           :key="i"
@@ -19,6 +35,7 @@
           </v-list-item-content>
         </v-list-item>
       </v-list>
+
     </v-navigation-drawer>
     <v-app-bar app color="primary" dark>
       <v-toolbar-title>

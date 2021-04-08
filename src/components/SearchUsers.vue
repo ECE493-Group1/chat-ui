@@ -6,18 +6,18 @@
           >Search For Users
         </v-btn>
       </template>
-      <v-card>
+      <v-card class="secondary">
         <v-text-field class="px-4" v-model="searchQuery" label="username">
         </v-text-field>
         <v-divider></v-divider>
-        <v-btn color="blue darken-1" text @click="search">Search</v-btn>
+        <v-btn class="secondary black--text" text @click="search">Search</v-btn>
         <v-divider></v-divider>
         <v-card-text style="height: 300px">
-          <v-list>
+          <v-list class="secondary">
             <v-list-item v-for="(user, i) in users" :key="i">
               <v-list-item-title>{{ user }}</v-list-item-title>
               <v-list-item-action>
-                <v-btn @click="add(i)">
+                <v-btn @click="add(i)" class="primary">
                   <v-icon>mdi-plus</v-icon>
                 </v-btn>
               </v-list-item-action>

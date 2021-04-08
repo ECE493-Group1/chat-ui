@@ -8,12 +8,12 @@
       </v-row>
       <v-row>
         <v-col cols="6">
-          <div class="text-h4 text-center">{{ threads.length }}</div>
+          <div class="text-h4 text-center"> Number of threads: {{ threads.length }} </div>
         </v-col>
         <v-col cols="6">
           <div class="text-h4 text-center">
             <!--TODO actually add mentions-->
-            Mentions : {{ 12 }}
+            Mentions: {{ 12 }}
           </div>
         </v-col>
         <v-spacer cols="2"></v-spacer>

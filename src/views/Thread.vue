@@ -51,8 +51,8 @@
       <v-col cols="12" class="messages">
         <v-list>
           <v-list-item>
-            <v-btn fab @click="openOptions" dark>
-              <v-icon> mdi-cog </v-icon>
+            <v-btn fab @click="openOptions" class="secondary">
+              <v-icon> mdi-cogs</v-icon>
             </v-btn>
           </v-list-item>
           <v-list-item class="center" :style="{ 'align-items': 'center' }">
@@ -63,7 +63,11 @@
           </v-list-item>
           <v-list-item>
             <v-list-item-content v-if="keywords.length > 0">
-              <p class="text-h5 text-center">Keywords: {{ keywords.slice(0, maxKeywords).join(", ")}}</p>
+              <div class="d-flex justify-center">
+                <div class="pa-4 texttext--secondary ma-1 secondary rounded-pill" v-for="(kw, i) in keywords" :key="i">
+                    {{kw}}
+                </div>
+              </div>
             </v-list-item-content>
           </v-list-item>
           <v-divider></v-divider>

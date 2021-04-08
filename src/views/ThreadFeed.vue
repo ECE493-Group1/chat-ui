@@ -2,13 +2,13 @@
   <v-container>
     <v-row>
       <v-col cols="12">
-        <v-list>
-          <v-subheader class="text-h5"> Subscribed Threads</v-subheader>
-          <thread-list v-bind:threads=allThreads v-on:enter-room="enterRoom"></thread-list> 
+        <v-list >
+          <v-subheader class="text-h4 mt-4"> Subscribed Threads</v-subheader>
+          <thread-list v-bind:threads=subbedThreads v-on:enter-room="enterRoom"></thread-list> 
           <v-divider></v-divider>
 
-          <v-subheader class="text-h5"> All Public Threads</v-subheader>
-          <thread-list v-bind:threads=subbedThreads v-on:enter-room="enterRoom"></thread-list>
+          <v-subheader class="text-h4 mt-4"> All Public Threads</v-subheader>
+          <thread-list v-bind:threads=allThreads v-on:enter-room="enterRoom"></thread-list>
           
         </v-list>
       </v-col>
