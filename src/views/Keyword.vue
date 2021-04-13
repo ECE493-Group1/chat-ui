@@ -143,7 +143,7 @@ export default {
     updateThreads: function () {
       this.getAssociated();
       this.getSubbed();
-      this.threadsUpdateJob = setTimeout(this.threadsUpdateJob, REFRESH_TIMEOUT);
+      this.threadsUpdateJob = setTimeout(this.updateThreads, REFRESH_TIMEOUT);
     }
 
   },
