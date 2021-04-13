@@ -132,6 +132,7 @@ export default {
         params: { authtoken: this.$store.state.authToken },
       });
       var subbed = response.data.keywords;
+      console.log(subbed)
       for (var i = 0; i < subbed.length; i++) {
         response = await axios.get(KW_SERVICE_URL + KW_SERVICE_ROOMS_KW, {
           params: { keyword: subbed[i] },

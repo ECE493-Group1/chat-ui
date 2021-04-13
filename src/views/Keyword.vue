@@ -26,7 +26,7 @@
               >
                 {{ isSubbed ? "Unsubscribe" : "Subscribe" }}
                 <v-icon right dark>{{
-                  isSubbed ? "mdi-trash-can" : "mdi-add"
+                  isSubbed ? "mdi-trash-can" : "mdi-plus"
                 }}</v-icon>
               </v-btn>
             </v-card-actions>
@@ -71,6 +71,7 @@ import {
   KW_SERVICE_ROOMS_KW,
   KW_SERVICE_URL,
   KW_SERVICE_USER,
+  REFRESH_TIMEOUT,
 } from "../constants";
 
 import ThreadList from "../components/ThreadList.vue";
@@ -83,6 +84,7 @@ export default {
   data: () => ({
     threads: [],
     isSubbed: false,
+    threadsUpdateJob: null,
   }),
   computed: {
     keyword() {
@@ -124,6 +126,7 @@ export default {
 
       response = await axios.post(CHAT_BACKEND_URL + CHAT_BACKEND_BY_LIST, ids);
       this.threads = response.data.rooms;
+      this.threads.sort((a,b) => b.lastMessageTime - a.lastMessageTime)
     },
     getSubbed: function () {
       axios
@@ -131,14 +134,26 @@ export default {
           params: { authtoken: this.$store.state.authToken },
         })
         .then(
-          (response) =>
-            (this.isSubbed = response.data.keywords.includes(this.keyword))
+          (response) => {
+
+            this.isSubbed = response.data.keywords.includes(this.keyword)
+          }
         );
     },
+    updateThreads: function () {
+      this.getAssociated();
+      this.getSubbed();
+      this.threadsUpdateJob = setTimeout(this.threadsUpdateJob, REFRESH_TIMEOUT);
+    }
+
   },
   mounted() {
-    this.getAssociated();
-    this.getSubbed();
+    this.updateThreads()
   },
+  beforeDestroy() {
+    if(this.threadsUpdateJob!= null){
+      clearTimeout(this.threadsUpdateJob)
+    }
+  }
 };
 </script>
