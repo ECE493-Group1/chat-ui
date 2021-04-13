@@ -113,7 +113,7 @@ export default {
       });
       
       this.threads.sort(function (a, b) {
-        return a.lastMessageTime - b.lastMessageTime;
+        return b.lastMessageTime - a.lastMessageTime;
       });
     },
     loadThreads: async function () {

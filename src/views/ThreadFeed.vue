@@ -46,9 +46,13 @@ export default {
     enterRoom: function (roomId) {
       this.$router.push("/chat/" + roomId);
     },
+    sortChronologically: function(a, b) {
+      return b.lastMessageTime - a.lastMessageTime
+    },
     getChatrooms: function () {
       axios.get(CHAT_BACKEND_URL + CHAT_BACKEND_ROOMS).then((response) => {
         this.allThreads = response.data.rooms;
+        this.allThreads.sort(this.sortChronologically);
       });
       axios
         .get(CHAT_BACKEND_URL + CHAT_BACKEND_SUBBED, {
@@ -56,6 +60,7 @@ export default {
         })
         .then((response) => {
           this.subbedThreads = response.data.rooms;
+          this.subbedThreads.sort(this.sortChronologically);
         });
       this.threadUpdateJob = setTimeout(this.getChatrooms, REFRESH_TIMEOUT);
     },

@@ -49,10 +49,10 @@ export default {
         return difference.toString() + " seconds ago";
       }
       if (difference < 3600) {
-        return Math.ceil(difference / 3600).toString() + " minutes ago";
+        return Math.ceil(difference / 60).toString() + " minutes ago";
       }
       if (difference < 86400) {
-        return "1 day ago"
+        return Math.ceil(difference/3600).toString() + "hours ago" 
       } else {
         return Math.ceil(difference / 86400).toString() + " days ago";
       }
