@@ -11,7 +11,7 @@
             {{ room.lastMessage }} 
           </v-list-item-subtitle>
           <v-list-item-subtitle
-            >Members: {{ room.members.sort().join(", ") }}</v-list-item-subtitle
+            >Members: {{ [...room.members].sort().join(", ") }}</v-list-item-subtitle
           >
           <v-list-item-subtitle>
             Last Message: {{shortTime(room.lastMessageTime)}}
