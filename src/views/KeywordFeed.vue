@@ -1,7 +1,7 @@
 <template>
   <v-container fluid>
     <v-row>
-      <v-spacer cols="4"></v-spacer> 
+      <v-spacer cols="4"></v-spacer>
       <v-col cols="4">
         <v-list>
           <v-subheader class="text-h4 mt-4"> Subscribed Keywords</v-subheader>
@@ -65,7 +65,7 @@
           <v-divider></v-divider>
         </v-list>
       </v-col>
-      <v-spacer cols="4"></v-spacer> 
+      <v-spacer cols="4"></v-spacer>
     </v-row>
   </v-container>
 </template>
@@ -77,6 +77,7 @@ import {
   KW_SERVICE_RECOMMEND,
   KW_SERVICE_URL,
   KW_SERVICE_USER,
+  REFRESH_TIMEOUT,
 } from "../constants";
 
 export default {
@@ -85,30 +86,40 @@ export default {
     allKeywords: [],
     recommendedKeywords: [],
     subbedKeywords: [],
+    keywordUpdateJob: null,
   }),
   methods: {
     viewKeyword: function (keyword) {
       this.$router.push("/keyword/" + keyword);
     },
+    updateKeywords: function () {
+      axios.get(KW_SERVICE_URL + KW_SERVICE_ALL_KW).then((response) => {
+        this.allKeywords = response.data.keywords;
+      });
+      axios
+        .get(KW_SERVICE_URL + KW_SERVICE_RECOMMEND, {
+          params: { authtoken: this.$store.state.authToken },
+        })
+        .then((response) => {
+          this.recommendedKeywords = response.data.keywords;
+        });
+      axios
+        .get(KW_SERVICE_URL + KW_SERVICE_USER, {
+          params: { authtoken: this.$store.state.authToken },
+        })
+        .then((response) => {
+          this.subbedKeywords = response.data.keywords;
+        });
+      this.keywordUpdateJob = setTimeout(this.updateKeywords, REFRESH_TIMEOUT);
+    },
   },
   mounted() {
-    axios.get(KW_SERVICE_URL + KW_SERVICE_ALL_KW).then((response) => {
-      this.allKeywords = response.data.keywords;
-    });
-    axios
-      .get(KW_SERVICE_URL + KW_SERVICE_RECOMMEND, {
-        params: { authtoken: this.$store.state.authToken },
-      })
-      .then((response) => {
-        this.recommendedKeywords = response.data.keywords;
-      });
-    axios
-      .get(KW_SERVICE_URL + KW_SERVICE_USER, {
-        params: { authtoken: this.$store.state.authToken },
-      })
-      .then((response) => {
-        this.subbedKeywords = response.data.keywords;
-      });
+    this.updateKeywords();
   },
+  beforeDestroy() {
+    if(this.keywordUpdateJob != null) {
+      clearTimeout(this.keywordUpdateJob)
+    }
+  }
 };
 </script>
