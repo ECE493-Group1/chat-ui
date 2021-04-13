@@ -19,3 +19,5 @@ export const KW_SERVICE_USER = "/keywords/user"
 export const KW_SERVICE_ROOM_KW = "/keywords/room"
 export const KW_SERVICE_ROOMS_KW = "/keywords/rooms"
 export const KW_SERVICE_RECOMMEND = "/keywords/recommendations"
+
+export const REFRESH_TIMEOUT = 4000

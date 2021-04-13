@@ -59,13 +59,17 @@
             <v-list-item-content>
               <p class="text-h2 text-center">{{ title }}</p>
             </v-list-item-content>
-             
           </v-list-item>
           <v-list-item>
             <v-list-item-content v-if="keywords.length > 0">
               <div class="d-flex justify-center">
-                <v-btn class="pa-4 text--secondary ma-1 secondary rounded-pill" v-for="(kw, i) in keywords" :key="i" @click="viewKeyword(kw)">
-                    #{{kw}}
+                <v-btn
+                  class="pa-4 text--secondary ma-1 secondary rounded-pill"
+                  v-for="(kw, i) in keywords"
+                  :key="i"
+                  @click="viewKeyword(kw)"
+                >
+                  #{{ kw }}
                 </v-btn>
               </div>
             </v-list-item-content>
@@ -131,7 +135,7 @@
   text-align: right;
 }
 .self-message .message {
-  background-color: lightgreen;
+  background-color: #90ee90;
 }
 .messages {
   box-sizing: border-box;
@@ -159,9 +163,10 @@ import {
   CHAT_BACKEND_URL,
   KW_SERVICE_URL,
   KW_SERVICE_ROOM_KW,
+  REFRESH_TIMEOUT,
 } from "../constants";
 
-const MAX_KEYWORDS = 10
+const MAX_KEYWORDS = 10;
 
 export default {
   name: "Thread",
@@ -257,20 +262,24 @@ export default {
       this.getRoomInfo(this.roomId);
     },
     getKeywords: function () {
-      axios.get(KW_SERVICE_URL + KW_SERVICE_ROOM_KW, {params:{
-        chatroom_id: this.roomId
-      }}).then((response) => {
-        this.keywords = response.data.keywords
-        this.keywordJob = setTimeout(this.getKeywords, 5000)
-      })
+      axios
+        .get(KW_SERVICE_URL + KW_SERVICE_ROOM_KW, {
+          params: {
+            chatroom_id: this.roomId,
+          },
+        })
+        .then((response) => {
+          this.keywords = response.data.keywords;
+          this.keywordJob = setTimeout(this.getKeywords, REFRESH_TIMEOUT);
+        });
     },
-    viewKeyword: function(keyword) {
+    viewKeyword: function (keyword) {
       this.$router.push("/keyword/" + keyword);
-    }
+    },
   },
   mounted() {
     this.enter();
-    this.getKeywords()
+    this.getKeywords();
   },
   beforeRouteUpdate(to, from, next) {
     console.log(to, from, next);
@@ -283,8 +292,8 @@ export default {
   },
   beforeDestroy() {
     if (this.keywordJob != null) {
-      clearTimeout(this.keywordJob)
+      clearTimeout(this.keywordJob);
     }
-  }
+  },
 };
 </script>
